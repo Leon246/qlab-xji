@@ -25,6 +25,7 @@ void asset::update(ulli timestamp, int vol, int price) {
     wa_price = static_cast<int>(tot_pricevol / static_cast<ulli>(tot_vol));
 }
 
+// updating asset database for every transaction made
 void query::readline(const string& symbol, ulli timestamp, int vol, int price) {
     const auto search_db = asset_db.find(symbol);
     if (search_db == asset_db.end()) {
@@ -35,6 +36,8 @@ void query::readline(const string& symbol, ulli timestamp, int vol, int price) {
     }
 }
 
+// process input via reading csv file
+// could be modified/overrided with other input methods
 void query::process(const string& filename) {
     ifstream ifs(filename, ifstream::in);
     string line;
@@ -57,6 +60,7 @@ void query::process(const string& filename) {
 }
 
 ostream& query::print(ostream& os) const {
+    // make a copy of sorted database for output (assuming non frequent output requests..)
     map<string, asset> ordered_stock_db(asset_db.begin(), asset_db.end());
     for (const auto it : ordered_stock_db) {
         os << it.second;

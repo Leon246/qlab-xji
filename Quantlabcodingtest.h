@@ -60,6 +60,8 @@ public:
 
     const unordered_map<string, asset>& get_asset_db() const { return asset_db; }
 private:
+    // database constantly asscessed/updated for each readline
+    // using hashmap for O(1) efficiency
     unordered_map<string, asset> asset_db;
 };
 
