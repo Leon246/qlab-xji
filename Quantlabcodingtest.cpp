@@ -9,6 +9,12 @@ asset::asset(const string& symbol, ulli timestamp, int vol, int price) {
     tot_pricevol = vol*price;
 }
 
+ostream& asset::print(ostream& os) const {
+    os << name << "," << max_gap << "," << tot_vol;
+    os << "," << wa_price << "," << max_price << std::endl;
+    return os;
+}
+
 void asset::update(ulli timestamp, int vol, int price) {
     ulli gap = timestamp - prev_timestamp;
     max_gap = max_gap > gap ? max_gap : gap;
@@ -50,3 +56,10 @@ void query::process(const string& filename) {
     ifs.close();
 }
 
+ostream& query::print(ostream& os) const {
+    map<string, asset> ordered_stock_db(asset_db.begin(), asset_db.end());
+    for (const auto it : ordered_stock_db) {
+        os << it.second;
+    }
+    return os;
+}

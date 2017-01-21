@@ -3,6 +3,9 @@
 #ifndef QUANTLABCODINGTEST_H
 #define QUANTLABCODINGTEST_H
 
+#include <iostream>
+#include <fstream>
+#include <sstream>
 #include <string>
 #include <map>
 #include <unordered_map>
@@ -22,6 +25,13 @@ public:
     ~asset() = default;
 
     void update(ulli, int, int);
+    ostream& print(ostream&) const;
+
+    string get_name() const { return name; }
+    ulli get_max_gap() const { return max_gap; }
+    int get_tot_vol() const { return tot_vol; }
+    int get_max_price() const { return max_price; }
+    int get_wa_price() const { return wa_price; }
 private:
     string name;
     ulli prev_timestamp;
@@ -31,6 +41,10 @@ private:
     int wa_price;
     ulli tot_pricevol;
 };
+
+inline ostream& operator<<(ostream& os, const asset& s) {
+    return s.print(os); 
+}
 
 class query {
 public:
@@ -44,8 +58,13 @@ public:
     void readline(const string&, ulli, int, int);
     ostream& print(ostream&) const;
 
+    const unordered_map<string, asset>& get_asset_db() const { return asset_db; }
 private:
     unordered_map<string, asset> asset_db;
 };
+
+inline ostream& operator<<(ostream& os, const query& q) {
+    return q.print(os);
+}
 
 #endif
